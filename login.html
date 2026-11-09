@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SignalBridge · Company login</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="description" content="SignalBridge turns real network experiences into insight for people and telecom teams.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='4' fill='%23ff6fa5'/></svg>">
+</head>
+<body>
+<header>
+  <div class="logo"><i></i>SignalBridge</div>
+  <nav><a href="index.html">← Public site</a></nav>
+</header>
+
+<section class="block" style="max-width:460px;margin:auto">
+  <p class="mono">company access</p>
+  <h2>Welcome <em>back</em></h2>
+  <form class="card" id="form">
+    <label>Email</label>
+    <input id="email" type="email" autocomplete="username" required>
+    <label>Password</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <button class="btn full" type="submit">Log in</button>
+    <p id="err" class="mono small"></p>
+  </form>
+  <p class="mono small">Demo accounts (portfolio only):<br>
+    analyst@demo.signalbridge / analyst-demo-2026<br>
+    manager@demo.signalbridge / manager-demo-2026</p>
+</section>
+
+<script>
+const API = (location.hostname === '127.0.0.1' || location.hostname === 'localhost')
+  ? 'http://127.0.0.1:8000'
+  : 'https://YOUR-API-NAME.onrender.com';
+document.getElementById('form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('err');
+  err.textContent = '';
+  try {
+    const res = await fetch(API + '/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('pw').value
+      })
+    });
+    const d = await res.json();
+    if (!res.ok) { err.textContent = d.detail || 'Login failed'; return; }
+    localStorage.setItem('sb_token', d.token);
+    localStorage.setItem('sb_user', JSON.stringify({ name: d.name, role: d.role }));
+    location.href = 'dashboard.html';
+  } catch (x) {
+    err.textContent = 'Cannot reach the backend. Is uvicorn running?';
+  }
+});
+</script>
+</body>
+</html>

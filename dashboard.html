@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LumiBridge · Company dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<meta name="description" content="SignalBridge turns real network experiences into insight for people and telecom teams.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='4' fill='%23ff6fa5'/></svg>">
+</head>
+<body>
+
+<header>
+  <div class="logo"><i></i>LumiBridge</div>
+  <nav>
+  <a href="index.html">← Public site</a>
+  <span class="mono" id="who"></span>
+  <a href="#" id="logout">Log out</a>
+</nav>
+</header>
+
+<section class="block">
+  <p class="mono">company workspace · aggregated, anonymised</p>
+  <h2>Network <em>experience</em> dashboard</h2>
+
+  <div class="card">
+    <div class="filters">
+      <select id="f-area">
+        <option value="">All areas</option>
+        <option>Lekki</option><option>Victoria Island</option>
+        <option>Yaba</option><option>Ikeja</option>
+      </select>
+      <select id="f-provider">
+        <option value="">All providers</option>
+        <option>MTN</option><option>Airtel</option><option>GLO</option>
+      </select>
+      <select id="f-days">
+        <option value="7">Last 7 days</option>
+        <option value="14" selected>Last 14 days</option>
+        <option value="30">Last 30 days</option>
+      </select>
+      <select id="f-issue">
+        <option value="">All issue types</option>
+        <option value="slow_data">Slow data</option>
+        <option value="dropped_call">Dropped calls</option>
+        <option value="no_signal">No signal</option>
+      </select>
+      <button class="btn small" id="export" type="button">Export CSV</button>
+    </div>
+    <p id="err" class="mono small"></p>
+  </div>
+
+  <div class="kpis">
+    <div class="card"><small>Reports</small><b id="k-reports">–</b></div>
+    <div class="card"><small>Slow-report rate</small><b id="k-slow">–</b></div>
+    <div class="card"><small>Avg download</small><b id="k-dl">–</b></div>
+    <div class="card"><small>Avg latency</small><b id="k-lat">–</b></div>
+  </div>
+
+  <div class="two">
+    <div class="card">
+      <h3>Slow-report rate by hour</h3>
+      <div id="bars" class="bars"></div>
+      <p class="mono small">Hover a bar for exact numbers.</p>
+    </div>
+    <div class="card">
+      <h3>Trend in selected period</h3>
+      <div class="ba" id="trend"></div>
+      <h3 style="margin-top:22px">Providers</h3>
+      <div id="providers"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+    <h3>Areas to prioritise</h3>
+    <table>
+      <thead><tr><th>Area</th><th>Peak slow hour</th><th>Reports</th><th>Slow rate</th><th>Status</th><th></th></tr></thead>
+      <tbody id="areas"></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:18px">
+  <h3>Case tracker</h3>
+  <p class="mono small">Click "Open case" on an area above, then track it to resolution. Only managers can mark a case Resolved.</p>
+
+  <div id="newcase" class="newcase" hidden>
+    <h3>New case · <span id="nc-area"></span></h3>
+    <input id="nc-title" placeholder="Case title">
+    <select id="nc-prio">
+      <option value="low">Low priority</option>
+      <option value="medium" selected>Medium priority</option>
+      <option value="high">High priority</option>
+    </select>
+    <textarea id="nc-note" placeholder="What should the team investigate?"></textarea>
+    <div class="caseact">
+      <button class="btn small" id="nc-save" type="button">Create case</button>
+      <button class="btn small ghost" id="nc-cancel" type="button">Cancel</button>
+    </div>
+  </div>
+
+  <div id="cases"></div>
+</div>
+
+  <p class="mono small">User reports are evidence for investigation, not proof of a fault. Confirming a cause needs network diagnostics and company data.</p>
+</section>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LumiBridge</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,wght@0,600;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<meta name="description" content="SignalBridge turns real network experiences into insight for people and telecom teams.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><circle cx='5' cy='5' r='4' fill='%23ff6fa5'/></svg>">
+</head>
+<body>
+
+<header>
+  <div class="logo"><i></i>LumiBridge</div>
+  <nav>
+    <a href="#map">Map</a>
+    <a href="#tools">Tools</a>
+    <a href="#troubleshooter">Troubleshooter</a>
+    <a href="#insights">Insights</a>
+    <a class="pill" href="dashboard.html">For companies</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="mono">// real experiences → network intelligence</p>
+    <h1>Your signal, <em>finally</em> heard.</h1>
+    <p class="lead">Test your connection, report what you're actually experiencing, and see if your neighbours feel it too. Companies get structured evidence instead of scattered complaints.</p>
+    <div class="cta"><a class="btn" href="#tools">Test &amp; report</a><a class="btn ghost" href="#company">See the company view</a></div>
+  </div>
+  <div class="orb">
+    <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+    <div class="core">▲</div>
+    <div class="chip c1">Lekki · 7–10pm<br><b>slow reports ↑</b></div>
+    <div class="chip c2">Is it just me?<br><b>No. 34 nearby</b></div>
+    <div class="chip c3">Latency<br><b>212 ms</b></div>
+  </div>
+</section>
+
+<section class="stats">
+  <div><b id="st-reports">–</b><small>reports</small></div>
+  <div><b id="st-cells">–</b><small>map cells</small></div>
+  <div><b>500 m</b><small>privacy grid</small></div>
+  <div><b>≥ 5</b><small>reports per cell</small></div>
+</section>
+
+<section id="map" class="block">
+  <p class="mono">01 · connectivity experience map</p>
+  <h2>What people <em>actually</em> experience</h2>
+  <div class="two">
+    <div class="card">
+      <div id="leafmap"></div>
+      <div class="legend"><span>fewer slow reports</span><i class="scale"></i><span>more slow reports</span></div>
+    </div>
+    <div class="card" id="report">
+  <h3>Report a problem</h3>
+
+  <label>Provider</label>
+  <select id="provider">
+    <option>MTN</option>
+    <option>Airtel</option>
+    <option>GLO</option>
+  </select>
+
+  <label>Issue</label>
+  <select id="issue">
+    <option value="slow_data">Slow data</option>
+    <option value="dropped_call">Dropped calls</option>
+    <option value="no_signal">No signal</option>
+  </select>
+
+  <div class="row2">
+    <div><label>Download (Mbps)</label><input id="dl" type="number" step="0.1" value="2"></div>
+    <div><label>Latency (ms)</label><input id="lat" type="number" value="150"></div>
+  </div>
+
+  <button class="btn ghost full" id="geo" type="button">Use my location</button>
+  <button class="btn full" id="send" type="button">Submit report</button>
+  <p id="msg" class="mono small">Click the map to choose a location.</p>
+</div>
+  </div>
+</section>
+
+<section id="tools" class="block">
+  <p class="mono">02 · for everyone</p>
+  <h2>Four little tools, <em>zero jargon</em></h2>
+  <div class="grid4">
+    <div class="card"><div class="gauge"><span>38<small>Mbps</small></span></div><h3>Speed &amp; stability test</h3><p>Download, latency and jitter in one tap.</p></div>
+    <div class="card"><div class="icon">✎</div><h3>Report a problem</h3><p>Slow data, dropped calls, no signal. Location sharing is optional.</p></div>
+    <div class="speed">
+  <button class="btn full" id="runtest" type="button">▶ Run speed test</button>
+  <div class="speedout" id="speedout"></div>
+</div>
+    <div class="card"><div class="icon">◎</div><h3>Is it just me?</h3><p>Compare your result with nearby reports to see if it's widespread.</p></div>
+    <div class="card">
+      <h3>Compare providers</h3>
+      <div class="bar"><label>MTN</label><i style="--w:62%"></i></div>
+      <div class="bar"><label>Airtel</label><i style="--w:48%"></i></div>
+      <div class="bar"><label>GLO</label><i style="--w:71%"></i></div>
+      <p class="mono small">sample data, aggregated</p>
+    </div>
+  </div>
+</section>
+
+<section id="troubleshooter" class="block">
+  <p class="mono">03 · connection troubleshooter</p>
+  <h2>Slow internet? <em>Let's work it out.</em></h2>
+  <div class="card ts">
+    <div class="tsprog" id="tsprog"></div>
+    <div id="tsbody"></div>
+  </div>
+</section>
+
+<section id="insights" class="block">
+  <p class="mono">04 · network insights engine</p>
+  <h2>Patterns, <em>not guesses</em></h2>
+  <div class="two">
+    <div class="card">
+      <h3>Slow-report rate by hour · Lekki</h3>
+      <div id="bars" class="bars"></div>
+      <div id="insightList"></div>
+    </div>
+    <div class="card note">
+      <h3>How it works</h3>
+      <ul>
+        <li>Groups reports by area and hour</li>
+        <li>Compares each hour to the area's own baseline</li>
+        <li>Flags unusual spikes with a score</li>
+        <li>Never claims a cause without network data</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="company" class="block">
+  <p class="mono">05 · company dashboard</p>
+  <h2>Evidence your team <em>can act on</em></h2>
+  <div class="card dash">
+    <div class="filters">
+      <span class="fl">Area: Lekki ▾</span><span class="fl">Provider: All ▾</span>
+      <span class="fl">Time: Last 14 days ▾</span><span class="fl">Issue: Slow data ▾</span>
+      <a class="btn small" href="#">Export CSV</a>
+    </div>
+    <table>
+      <tr><th>Area</th><th>Hours</th><th>Reports</th><th>Slow rate</th><th>Status</th></tr>
+      <tr><td>Lekki Phase 1</td><td>19:00–22:00</td><td>186</td><td>72%</td><td><span class="tag hot">Investigate</span></td></tr>
+      <tr><td>Victoria Island</td><td>08:00–09:00</td><td>94</td><td>41%</td><td><span class="tag">Monitor</span></td></tr>
+      <tr><td>Yaba</td><td>·</td><td>128</td><td>13%</td><td><span class="tag ok">Normal</span></td></tr>
+    </table>
+    <div class="ba"><div><small>Before intervention</small><b>61% slow</b></div><span>→</span><div><small>After intervention</small><b>22% slow</b></div></div>
+  </div>
+  <p class="mono small">Also planned: prioritised areas, case tracking, multi-branch monitoring for businesses.</p>
+</section>
+
+<footer>
+  <div class="pills">
+    <span>User reports are evidence, not proof of a fault</span>
+    <span>Consent-first location</span>
+    <span>No confidential data</span>
+    <span>Sample data only</span>
+  </div>
+  <p>SignalBridge · built with care by Alimi Grace Oyinkanmi</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
